@@ -1,8 +1,11 @@
 #ifndef PROTOCOL_H
 #define PROTOCOL_H
 
+#define PORT 8080
+#define MAX_CLIENTS 2
+
 // Taille maximale du buffer de la commande
-#define BUFFER_SIZE 64
+#define BUFFER_SIZE 1024
 
 // Commande pour déplacer le navire
 #define MOVE_COMMAND "MOVE:"
@@ -21,5 +24,8 @@
 
 // Taille maximale des navires (ici, c'est le porte-avions avec une taille de 5)
 #define MAX_SHIP_SIZE 5
+
+#define GRID_SIZE 10
+#define MESSAGE_SIZE 50
 
 #endif
