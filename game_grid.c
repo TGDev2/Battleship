@@ -1,8 +1,8 @@
+#pragma once
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include "protocol.h"
-#include "game_grid.h"
 
 void init_grid(int grid[GRID_SIZE][GRID_SIZE]) {
     for (int i = 0; i < GRID_SIZE; i++) {
