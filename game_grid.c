@@ -66,23 +66,9 @@ void display_grid(int grid[GRID_SIZE][GRID_SIZE]) {
     }
 }
 
-int record_bomb(int grid[GRID_SIZE][GRID_SIZE], int x, int y) {
-    if (x < 0 || y < 0 || x >= GRID_SIZE || y >= GRID_SIZE) {
-        return -1;
-    }
-    if (grid[x][y] == 2) {
-        return -1;
-    }
-    grid[x][y] = 2;
-    return 0;
-}
-
 char* check_bomb(int grid[GRID_SIZE][GRID_SIZE], int x, int y) {
-    if (grid[x][y] == 1) {
-        int bomb_result = record_bomb(grid, x, y);
-        if (bomb_result == -1) {
-            return "ERROR";
-        }
+    if (grid[x][y] == 1) {  // Si la bombe a touché un navire
+        grid[x][y] = 2;  // Marquer la case comme bombardée
         for (int i = -MAX_SHIP_SIZE; i <= MAX_SHIP_SIZE; i++) {
             if (x + i >= 0 && x + i < GRID_SIZE) {
                 if (grid[x + i][y] == 1) {
@@ -90,13 +76,16 @@ char* check_bomb(int grid[GRID_SIZE][GRID_SIZE], int x, int y) {
                 }
             }
             if (y + i >= 0 && y + i < GRID_SIZE) {
-                if (grid[x][y + i] == 1) {   
+                if (grid[x][y + i] == 1) {
                     return "HIT";
                 }
             }
         }
         return "SUNK";
-    } else {
+    } else if (grid[x][y] == 0) {  // Si la bombe a touché une case vide
+        grid[x][y] = 3;  // Marquer la case comme bombardée
         return "MISS";
+    } else {
+        return "ERROR";
     }
 }
