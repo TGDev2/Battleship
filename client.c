@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include "protocol.h"
-#include "game_grid.h"
+#include "game_grid.c"
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -53,19 +53,22 @@ int main() {
     while (1) {
         memset(buffer, 0, BUFFER_SIZE);
         read(sock, buffer, BUFFER_SIZE);
+        
         if (strncmp(buffer, OUTCOME_COMMAND, strlen(OUTCOME_COMMAND)) == 0) {
             printf("Outcome: %s\n", buffer + strlen(OUTCOME_COMMAND));
             memcpy(grid, shared_grid, GRID_SIZE * GRID_SIZE * sizeof(int));
             printf("\nCurrent Grid:\n");
             display_grid((int (*)[GRID_SIZE])grid);
-        } else if (strncmp(buffer, "END", 3) == 0) {
+        } 
+        
+        if (strncmp(buffer, "END", 3) == 0) {
             printf("%s\n", buffer + 4);
             exit(0);
         }
 
         printf("Enter your move: ");
         fgets(buffer, BUFFER_SIZE, stdin);
-        char move_message[BUFFER_SIZE * 2];
+        char move_message[BUFFER_SIZE];
         sprintf(move_message, "%s%s", MOVE_COMMAND, buffer);
         send(sock, move_message, strlen(move_message), 0);
     }
