@@ -82,7 +82,7 @@ int client(int number) {
         else {
             display_grid(grids.grid_client2);
         }
-        printf("Outcome: %s\n", msg_recv.message);
+        printf("\nOutcome: %s\n", msg_recv.message);
 
         if (strncmp(buffer, "END", 3) == 0) {
             printf("%s\n", buffer + 4);
