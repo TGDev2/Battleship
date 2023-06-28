@@ -118,7 +118,6 @@ int main() {
 
     printf("Server listening...\n");
     socks = create_socket();
-    srand(time(NULL));
 
     while (1)
     {

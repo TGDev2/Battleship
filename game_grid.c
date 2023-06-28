@@ -45,6 +45,7 @@ int place_ship(int grid[GRID_SIZE][GRID_SIZE], int x, int y, int direction, int 
 void init_grid_with_ships(int grid[GRID_SIZE][GRID_SIZE]) {
     int ship_sizes[] = SHIP_SIZES;
     init_grid(grid);
+    srand(time(NULL));  
     for (int i = 0; i < NUM_SHIPS; i++) {
         int ship_placed = 0;
         while (!ship_placed) {
