@@ -28,4 +28,9 @@
 #define GRID_SIZE 10
 #define MESSAGE_SIZE 50
 
+#define EMPTY_CELL 0
+#define SHIP_CELL 1
+#define HIT_CELL 2
+#define MISS_CELL 3
+
 #endif

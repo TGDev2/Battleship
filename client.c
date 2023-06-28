@@ -14,11 +14,13 @@
 #include "message.h"
 #include "game_grid.c"
 
-int connect_socket() {
+int connect_socket()
+{
     int sock;
     struct sockaddr_in serv_addr;
 
-    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    {
         perror("Socket creation error");
         return -1;
     }
@@ -26,12 +28,14 @@ int connect_socket() {
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(PORT);
 
-    if (inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0) {
+    if (inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0)
+    {
         perror("Invalid address / Address not supported");
         return -1;
     }
 
-    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
+    {
         perror("Connection failed");
         return -1;
     }
@@ -39,7 +43,8 @@ int connect_socket() {
     return sock;
 }
 
-int client(int number) {
+int client(int number)
+{
     char buffer[BUFFER_SIZE] = {0};
     struct grids grids;
     struct message msg_recv;
@@ -48,7 +53,8 @@ int client(int number) {
 
     int grid[GRID_SIZE][GRID_SIZE];
 
-    while (1) {
+    while (1)
+    {
         // recevied and read message from server
         read(sock, &buffer, sizeof(buffer));
         memcpy(&msg_recv, buffer, sizeof msg_recv);
@@ -64,8 +70,12 @@ int client(int number) {
 
         char pos_str[4];
         fgets(pos_str, 4, stdin);
+        int x, y;
+        sscanf(pos_str, "%d,%d", &x, &y);
+        x--;
+        y--;
         char move_message[MESSAGE_SIZE];
-        sprintf(move_message, "%s%s", MOVE_COMMAND, pos_str);
+        sprintf(move_message, "%s%d,%d", MOVE_COMMAND, x, y);
         send(sock, move_message, strlen(move_message), 0);
 
         // recevied and read message from server
@@ -76,15 +86,18 @@ int client(int number) {
         copyarray(grids.grid_client2, msg_recv.grid_client2);
 
         printf("\nCurrent Grid:\n");
-        if (number == 1) {
+        if (number == 1)
+        {
             display_grid(grids.grid_client1);
         }
-        else {
+        else
+        {
             display_grid(grids.grid_client2);
         }
         printf("\nOutcome: %s\n", msg_recv.message);
 
-        if (strncmp(buffer, "END", 3) == 0) {
+        if (strncmp(buffer, "END", 3) == 0)
+        {
             printf("%s\n", buffer + 4);
             exit(0);
         }

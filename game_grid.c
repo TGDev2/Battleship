@@ -45,7 +45,6 @@ int place_ship(int grid[GRID_SIZE][GRID_SIZE], int x, int y, int direction, int 
 void init_grid_with_ships(int grid[GRID_SIZE][GRID_SIZE]) {
     int ship_sizes[] = SHIP_SIZES;
     init_grid(grid);
-    srand(time(NULL));  
     for (int i = 0; i < NUM_SHIPS; i++) {
         int ship_placed = 0;
         while (!ship_placed) {
@@ -57,10 +56,19 @@ void init_grid_with_ships(int grid[GRID_SIZE][GRID_SIZE]) {
     }
 }
 
+
 void display_grid(int grid[GRID_SIZE][GRID_SIZE]) {
     for (int i = 0; i < GRID_SIZE; i++) {
         for (int j = 0; j < GRID_SIZE; j++) {
-            printf("%d ", grid[i][j]);
+            if (grid[i][j] == 0) { // Empty Cell
+                printf("- ");
+            } else if (grid[i][j] == 1) { // Ship
+                printf("S ");
+            } else if (grid[i][j] == 2) { // Hit
+                printf("H ");
+            } else if (grid[i][j] == 3) { // Miss
+                printf("X ");
+            }
         }
         printf("\n");
     }
